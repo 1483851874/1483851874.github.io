@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026元旦快乐 - 送给最好的你</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --primary-color: #ff4da6;
+            --secondary-color: #ffb6c1;
+            --bg-gradient: linear-gradient(135deg, #0a0a2a, #1a1a4a, #2a1a4a);
+            --card-bg: rgba(255, 255, 255, 0.15);
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-gradient);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .scroll-container {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            position: relative;
+            z-index: 10;
+            min-height: calc(100vh - 30px);
+        }
+        
+        /* 顶部装饰 */
+        .header-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: radial-gradient(ellipse at center, rgba(255, 77, 166, 0.3) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--primary-color);
+            background: linear-gradient(45deg, #ff4da6, #ffb6c1, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 主要内容区域 */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .blessing-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px 20px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: cardFloat 8s ease-in-out infinite;
+        }
+        
+        .blessing-card h2 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+        
+        .blessing-card p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            text-align: justify;
+        }
+        
+        .chengyi-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chengyi-section h3 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .chengyi-placeholder {
+            width: 150px;
+            height: 150px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffcc00, #ff4da6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+        
+        .chengyi-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            object-position: 20% 50%;
+        }
+        
+        .chengyi-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        /* 交互元素 */
+        .interactive-heart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 15px rgba(255, 77, 166, 0.5);
+            z-index: 100;
+            cursor: pointer;
+            user-select: none;
+            animation: pulse 2s infinite;
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-heart:active {
+            transform: scale(0.9);
+            box-shadow: 0 2px 8px rgba(255, 77, 166, 0.7);
+        }
+        
+        .interactive-heart.active {
+            background: #ff3366;
+            animation: heartBeat 0.5s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px 0 15px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* 动画效果 */
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 15px var(--primary-color);
+            }
+            100% {
+                text-shadow: 0 0 25px var(--primary-color), 0 0 35px var(--primary-color);
+            }
+        }
+        
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0.5deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(-0.5deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 166, 0.7);
+            }
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 15px rgba(255, 77, 166, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 77, 166, 0);
+            }
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(0.9); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 烟花和雪花效果样式 */
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 18px;
+            color: var(--primary-color);
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 8s linear forwards;
+        }
+        
+        .simple-heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            font-size: 24px;
+            animation: simpleHeart 2.5s ease-out forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes simpleHeart {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translateY(-20px) scale(1.2);
+                opacity: 0.9;
+            }
+            40% {
+                transform: translateY(-40px) scale(1);
+                opacity: 1;
+            }
+            60% {
+                transform: translateY(-60px) scale(0.9);
+                opacity: 0.8;
+            }
+            80% {
+                transform: translateY(-80px) scale(0.7);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .blessing-card, .chengyi-section {
+                padding: 20px 15px;
+            }
+            
+            .blessing-card p {
+                font-size: 0.95rem;
+            }
+            
+            .chengyi-placeholder {
+                width: 120px;
+                height: 120px;
+                font-size: 2.5rem;
+            }
+            
+            .interactive-heart {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+        
+        /* 防止长按菜单 */
+        .no-context-menu {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="no-context-menu">
+    <div class="scroll-container">
+        <div class="header-decoration"></div>
+        
+        <div class="container">
+            <header>
+                <h1>2026元旦快乐</h1>
+                <div class="subtitle">致我最美的吕利萍女士</div>
+                <div class="date-badge">🎉 新年新开始 🎉</div>
+            </header>
+            
+            <div class="content">
+                <div class="blessing-card">
+                    <h2>亲爱的吕利萍：</h2>
+                    <p>新的一年即将开启，我想对你说些心里话。感谢命运让我们相遇，从朋友到如今更近一步，每一步都让我倍感珍惜。
+                    愿我们的新年：充满彼此的温暖陪伴，每个日常都闪烁着幸福的光芒。
+                    共同成长，互相支持，在彼此的目光中找到勇气和力量。
+					分享更多欢笑，也携手面对挑战，让感情在时光中沉淀得越发醇香。
+                    健康平安，万事顺遂，所有的美好愿望都因彼此的存在而实现。</p>
+					<p>新的一年，我期待能更深入地了解你、呵护你，一起书写属于我们的故事。无论晴天雨天，我都愿在你身边。</p>
+                    <p>元旦快乐！我的女孩！</p>
+                    <p style="text-align: right; margin-top: 20px; font-style: italic;">未转正男友<br>高安</p>
+                </div>
+                
+                <div class="chengyi-section">
+                    <h3>✨ 致成毅的小粉丝 ✨</h3>
+                    <div class="chengyi-placeholder">
+                        <img src="https://file.moyubuluo.com/d/file/2023-08-18/8951749de202d3a5ea0d28371ee962df.jpg" alt="成毅照片">
+                    </div>
+                    <p>愿你在新的一年里，像成毅一样光芒四射，追逐自己的梦想！</p>
+                    <p>我会陪你一起支持他，看他的每一部作品！</p>
+                </div>
+            </div>
+            
+            <footer>
+                <p>❤️ 落日沉溺于橙色的海，晚风沦陷于赤城的爱 ❤️</p>
+                <p>2026年1月1日 用心制作</p>
+            </footer>
+        </div>
+    </div>
+    
+    <button class="interactive-heart" id="heartButton">❤️</button>
+
+    <script>
+        // 创建烟花效果（移动端优化版）
+        function createFireworks() {
+            const colors = ['#ff4da6', '#ffcc00', '#00ccff', '#ff3366', '#33ccff'];
+            
+            // 移动端减少烟花数量
+            const fireworkCount = window.innerWidth < 768 ? 3 : 5;
+            
+            setInterval(() => {
+                for (let i = 0; i < fireworkCount; i++) {
+                    setTimeout(() => {
+                        const firework = document.createElement('div');
+                        firework.classList.add('firework');
+                        
+                        // 随机位置（避免在边缘）
+                        const x = Math.random() * (window.innerWidth - 100) + 50;
+                        const y = Math.random() * (window.innerHeight / 3) + 50;
+                        
+                        // 随机颜色
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        firework.style.left = `${x}px`;
+                        firework.style.top = `${y}px`;
+                        firework.style.background = color;
+                        firework.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+                        
+                        document.body.appendChild(firework);
+                        
+                        // 烟花爆炸动画
+                        let size = 4;
+                        const grow = setInterval(() => {
+                            size += 2;
+                            firework.style.width = `${size}px`;
+                            firework.style.height = `${size}px`;
+                            firework.style.opacity = 1 - (size - 4) / 40;
+                            
+                            if (size > 40) {
+                                clearInterval(grow);
+                                setTimeout(() => {
+                                    if (firework.parentNode) {
+                                        firework.parentNode.removeChild(firework);
+                                    }
+                                }, 100);
+                            }
+                        }, 40);
+                    }, i * 200);
+                }
+            }, 2000);
+        }
+        
+        // 创建雪花效果（移动端优化版）
+        function createSnowflakes() {
+            // 根据屏幕大小调整雪花数量
+            const snowflakeCount = window.innerWidth < 768 ? 50 : 80;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                setTimeout(() => {
+                    const snowflake = document.createElement('div');
+                    snowflake.classList.add('snowflake');
+                    
+                    // 随机大小（移动端更小）
+                    const size = window.innerWidth < 768 ? 
+                        Math.random() * 3 + 1 : Math.random() * 4 + 2;
+                    snowflake.style.width = `${size}px`;
+                    snowflake.style.height = `${size}px`;
+                    
+                    // 随机位置
+                    snowflake.style.left = `${Math.random() * 100}vw`;
+                    snowflake.style.top = `-10px`;
+                    
+                    // 随机透明度
+                    snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+                    
+                    document.body.appendChild(snowflake);
+                    
+                    // 雪花飘落动画
+                    const duration = Math.random() * 10 + 10;
+                    const horizontalMove = Math.random() * 100 - 50;
+                    
+                    snowflake.style.animation = `snowfall ${duration}s linear infinite`;
+                    
+                    // 自定义雪花飘落动画
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes snowfall {
+                            0% {
+                                transform: translateY(0) translateX(0);
+                            }
+                            100% {
+                                transform: translateY(100vh) translateX(${horizontalMove}px);
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }, i * 300);
+            }
+        }
+        
+        // 创建飘动的心形
+        function createFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '❤';
+                
+                // 随机位置
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.fontSize = `${Math.random() * 12 + 12}px`;
+                
+                document.body.appendChild(heart);
+                
+                // 一段时间后移除
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 1500);
+        }
+        
+        // 交互爱心按钮功能 - 简化版爱心效果
+        document.getElementById('heartButton').addEventListener('click', function() {
+            // 添加点击动画效果
+            this.classList.add('active');
+            setTimeout(() => {
+                this.classList.remove('active');
+            }, 300);
+            
+            // 创建简单的爱心效果
+            createSimpleHeart();
+        });
+        
+        // 创建简单的爱心效果
+        function createSimpleHeart() {
+            const heartButton = document.getElementById('heartButton');
+            const rect = heartButton.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // 创建简单的爱心
+            const heart = document.createElement('div');
+            heart.classList.add('simple-heart');
+            heart.innerHTML = '❤';
+            heart.style.left = `${centerX}px`;
+            heart.style.top = `${centerY}px`;
+            heart.style.color = '#ff4da6';
+            heart.style.opacity = '0.9';
+            
+            document.body.appendChild(heart);
+            
+            // 动画结束后移除
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, 2500);
+        }
+        
+        // 页面加载完成后启动效果
+        window.addEventListener('load', () => {
+            createFireworks();
+            createSnowflakes();
+            createFloatingHearts();
+            
+            // 添加触摸设备优化
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+        });
+        
+        // 防止缩放
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+        
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
